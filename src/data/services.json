@@ -1,0 +1,106 @@
+{
+    "services": [
+        {
+            "name": "40 Gallon Gas Water Heater - 6 Year Warranty",
+            "price": "",
+            "uuid": "olit_0f34abf7d8294cfd9bbdc320b61eaf8c",
+            "type": "Water Heater"
+        },
+        {
+            "name": "50 Gallon Gas Water Heater - 6 Year Warranty",
+            "price": "",
+            "uuid": "olit_65e6d3da5a7d4c9e80f46ecdf1a795df",
+            "type": "Water Heater"
+        },
+        {
+            "name": "75 Gallon Gas Water Heater - 6 Year Warranty",
+            "price": "",
+            "uuid": "olit_c9122b7d1e914a2795939c4cd75e00c4",
+            "type": "Water Heater"
+        },
+        {
+            "name": "40 Gallon Electric Water Heater - 6 Year Warranty",
+            "price": "",
+            "uuid": "olit_7c5a6d1517bd4bcda06938200cb12cf5",
+            "type": "Water Heater"
+        },
+        {
+            "name": "50 Gallon Electric Water Heater - 6 Year Warranty",
+            "price": "",
+            "uuid": "olit_2194de09b9fa4c8bb2aacc74187e39e6",
+            "type": "Water Heater"
+        },
+        {
+            "name": "Toilet Rodding",
+            "price": "",
+            "uuid": "olit_03940133b4e8422ba6e2393275b23ceb",
+            "type": "Rodding"
+        },
+        {
+            "name": "Sink Rodding - Small Rod ",
+            "price": "",
+            "uuid": "olit_6721cc2e81ad4199af524fdda23b94ce",
+            "type": "Rodding"
+        },
+        {
+            "name": "Sink Rodding - Medium Rod",
+            "price": "",
+            "uuid": "olit_60416a54204345caa63bea76171e7aba",
+            "type": "Rodding"
+        },
+        {
+            "name": "Floor Drain Cleaning",
+            "price": "",
+            "uuid": "olit_bee2b484340a45bcb0190cf6d69eacba",
+            "type": "Rodding"
+        },
+        {
+            "name": "Main Sewer Rodding",
+            "price": "",
+            "uuid": "olit_cf478fd6a66a4cc2adc74d873134001a",
+            "type": "Rodding"
+        },
+        {
+            "name": "Tub/Shower Rodding",
+            "price": "",
+            "uuid": "olit_f448840642ab4553b3d124b963ae3fa0",
+            "type": "Rodding"
+        },
+        {
+            "name": "Urinal Rodding - Specialty",
+            "price": "",
+            "uuid": "olit_c3f61435bb474e9b89ba839f8750c2bb",
+            "type": "Rodding"
+        },
+        {
+            "name": "Urinal Rodding - Small Rodder",
+            "price": "",
+            "uuid": "olit_e48b655e822a4495b275e92027729b43",
+            "type": "Rodding"
+        },
+        {
+            "name": "Zoeller M53 1/3HP",
+            "price": "",
+            "uuid": "olit_76ea554e9b8542b393c27b254a0d9c6e",
+            "type": "Sump Pump"
+        },
+        {
+            "name": "Zoeller M98 1/2HP",
+            "price": "",
+            "uuid": "olit_af23974966e4464c97bd8f26d66f9f3d",
+            "type": "Sump Pump"
+        },
+        {
+            "name": "Zoeller M264 1/3HP",
+            "price": "",
+            "uuid": "olit_57c8810a09d541cd8223c5b7e7d5a6ca",
+            "type": "Ejector Pump"
+        },
+        {
+            "name": "Zoeller M267 1/2HP",
+            "price": "",
+            "uuid": "olit_c18f8f3815fa4b89983c873b51598b7b",
+            "type": "Ejector Pump"
+        }
+    ]
+}
