@@ -1,16 +1,269 @@
 ---
-import '../styles/global.css';
-const { content } = Astro.props;
+import "../styles/global.css";
+import { Navbar3 } from "@/components/navbar3";
+import { Footer1 } from "@/components/footers/Footer1";
+import { Banner3Emergency } from "@/components/banners/Banner3Emergency";
+import { Phone, CalendarClock } from "lucide-react";
+
+import { SITE } from '@/data/site';
+
+const calendarIcon = CalendarClock;
+const phoneIcon = Phone;
+const officePhones = SITE.contact.phone;
+const bookingURL = SITE.web.bookingUrl;
+// Accept flexible SEO/content props per page
+interface HeadContent {
+  title: string;
+  description?: string;
+  image?: string;       // absolute (preferred) or /public path
+  imageAlt?: string;
+  lang?: string;        // e.g. 'en'
+  noindex?: boolean;    // set true on pages you don't want indexed
+}
+
+const {
+  content = { title: "Astro + TailwindCSS" } as HeadContent,
+  structuredData, // optional: pass custom JSON-LD object from page
+} = Astro.props;
+
+// Build canonical if Astro.site is set in astro.config.mjs
+const canonical = Astro.site
+  ? new URL(Astro.url.pathname, Astro.site).toString()
+  : undefined;
+
+const robots = content.noindex ? "noindex, nofollow" : "index, follow";
+const year = new Date().getFullYear();
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<title>{content.title}</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+<html lang={content.lang ?? "en"} dir="ltr">
+  <head>
+
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>{content.title}</title>
+
+    {content.description && (
+      <meta name="description" content={content.description} />
+    )}
+    <meta name="robots" content={robots} />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b0b0b" media="(prefers-color-scheme: dark)" />
+
+    <!-- Icons & PWA bits (drop files in /public) -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Canonical -->
+    {canonical && <link rel="canonical" href={canonical} />}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={content.title} />
+    {content.description && (
+      <meta property="og:description" content={content.description} />
+    )}
+    {canonical && <meta property="og:url" content={canonical} />}
+    {content.image && <meta property="og:image" content={content.image} />}
+    {content.imageAlt && <meta property="og:image:alt" content={content.imageAlt} />}
+
+    <!-- Twitter -->
+    <meta
+      name="twitter:card"
+      content={content.image ? "summary_large_image" : "summary"}
+    />
+    <meta name="twitter:title" content={content.title} />
+    {content.description && (
+      <meta name="twitter:description" content={content.description} />
+    )}
+    {content.image && <meta name="twitter:image" content={content.image} />}
+
+<script async src="https://tally.so/widgets/embed.js"></script>
+    <!-- Your global CSS import is already optimized by Astro -->
+	 <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7NRRJT');</script>
+<!-- End Google Tag Manager -->
+  </head>
+
+  <body class="flex flex-col min-h-screen">
+	<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7NRRJT"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+    <!-- Skip link (keyboard users jump straight to main content) -->
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:px-3 focus:py-2 focus:bg-primary focus:text-primary-foreground"
+    >
+      Skip to main content
+    </a>
+<Banner3Emergency
+  class:list={{ "no-body-styles": true }}
+  mode="default"
+  phone={`${officePhones.office_1.display}`}
+  phoneLabel={`${officePhones.office_1.display}`}
+
+  mobileText={{ 
+    title: "Book plumbing online", 
+    description: "1-hour window • text updates" 
+  }}
+  tabletText={{ 
+    title: "Schedule in minutes", 
+    description: "Same-day or next-day times" 
+  }}
+  desktopText={{ 
+    title: "Book trusted local plumbers", 
+    description: "🕒 1-hour arrival windows for every appointment" 
+  }}
+
+  /* Primary CTA = booking */
+  mobileButton={{ 
+    text: "Schedule", 
+    href: ``, 
+    variant: "default", 
+    className: "bg-accent hover:bg-accent/90", 
+    size: "sm", 
+    leadingIcon: "calendar",
+	tallyOpen: "w4e1PO",
+    tallyEmojiText: "📅",
+    tallyEmojiAnimation: "none",
+    tallyAutoClose: 0,
+    tallyFormEventsForwarding: 1
+  }}
+  tabletButton={{ 
+    text: "Book Online", 
+    href: ``, 
+    variant: "default", 
+    className: "bg-accent hover:bg-accent/90", 
+    size: "sm",  
+    leadingIcon: "calendar",
+	tallyOpen: "w4e1PO",
+    tallyEmojiText: "📅",
+    tallyEmojiAnimation: "none",
+    tallyAutoClose: 0,
+    tallyFormEventsForwarding: 1
+  }}
+  desktopButton={{ 
+    text: "Schedule Service", 
+    href: ``, 
+    variant: "ghost", 
+    className: "text-white", 
+    size: "sm", 
+    leadingIcon: "calendar",
+	tallyOpen: "w4e1PO",
+    tallyEmojiText: "📅",
+    tallyEmojiAnimation: "none",
+    tallyAutoClose: 0,
+    tallyFormEventsForwarding: 1
+  }}
+
+  /* Secondary CTA = phone */
+  mobileSecondaryButton={{ 
+    text: "Call", 
+    href: `${officePhones.office_1.href}`, 
+    variant: "secondary", 
+    size: "sm", 
+    leadingIcon: "phone" 
+  }}
+  tabletSecondaryButton={{ 
+    text: "Call Now", 
+    href: `${officePhones.office_1.href}`, 
+    variant: "secondary", 
+    size: "sm", 
+    leadingIcon: "phone",
+	
+  }}
+  desktopSecondaryButton={{ 
+    text: `Call ${officePhones.office_1.display}`, 
+    href: `${officePhones.office_1.href}`, 
+    variant: "secondary", 
+    size: "sm", 
+    leadingIcon: "phone"  
+  }}
+  data-tally-open="w4e1PO" data-tally-emoji-text="📅" data-tally-emoji-animation="none" data-tally-auto-close="0" data-tally-form-events-forwarding="1"
+/>
+
+
+     <header id="banner">
+		
+      <div class="container mx-auto">
+        <Navbar3 client:load />
+      </div>
+    </header>
+
+    <!-- Put the slot INSIDE main and let it grow -->
+    <main id="main-content" role="main" tabindex="-1" class="grow">
+      <slot />
+    </main>
+
+<!-- Edge-to-edge footer background -->
+<footer id="footer" class="w-full mt-auto">
+  <!-- Full-width background layer (optional) -->
+  <div class="w-full">
+    <!-- Constrained inner content -->
+    <div class="container w-full px-4 mx-auto">
+      <Footer1
+        companyName="Chicagoland Plumbing Services, Inc."
+        fromYear={year}
+        client:load
+        sections={[
+          { title: "Product", links: [{ name: "Pricing", href: "/pricing" }] },
+		  { title: "Product", links: [{ name: "Pricing", href: "/pricing" }] },
+          { title: "Company", links: [{ name: "About", href: "/about" }] },
+        ]}
+        legalLinks={[
+          { name: "Terms", href: "/terms" },
+          { name: "Privacy", href: "/privacy" },
+        ]}
+      />
+    </div>
+  </div>
+</footer>
+
+
+    <!-- JSON-LD: pass your own via `structuredData` or fall back to a sensible LocalBusiness example. -->
+    {structuredData ? (
+      <script
+        type="application/ld+json"
+        set:html={JSON.stringify(structuredData)}
+      />
+    ) : (
+      <script
+        type="application/ld+json"
+        set:html={JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          name: "Chicagoland Plumbing Services",
+          url: canonical,
+          image: content.image,
+          telephone: "+1-708-428-4600",
+          priceRange: "$$",
+          areaServed: ["Mokena", "New Lenox", "Frankfort", "Orland Park", "Tinley Park", "Homer Glen", "Lockport", "Palos Hills", "Palos Park", "Manhattan", "Matteson", "Hazel Crest"],
+          // Replace with your real address or remove
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: "9623 194th Pl",
+            addressLocality: "Mokena",
+            addressRegion: "IL",
+            postalCode: "60448",
+            addressCountry: "US"
+          },
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: "4.8",
+            reviewCount: "170"
+          }
+        })}
+      />
+    )}
+  </body>
 </html>

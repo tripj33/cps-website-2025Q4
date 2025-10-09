@@ -1,25 +1,255 @@
 ---
 import '../styles/global.css';
-// Component Imports
-import Button from '../components/Button.astro';
+import Main from '../layouts/main.astro';
+// Custom icon & text
+import { Flame, Phone } from "lucide-react";
+// ⬅️ Add this import
+import { Hero3 } from '@/components/heros/hero3'; 
+import { Feature132 } from '@/components/features/Feature132';
+import { Stats1 } from '@/components/stats/stats1';
+import { Testimonial19 } from '@/components/testimonials/Testimonial19';
+import { Logos5 } from '@/components/logos/Logos5';
+import { Timeline10 } from '@/components/timelines/Timeline10';
+import { SITE } from '@/data/site';
+import { Cta12 } from '@/components/cta/Cta12';
 
-// Full Astro Component Syntax:
-// https://docs.astro.build/basics/astro-components/
+let reviewLink = SITE.reviews.platforms.find(p => p.name === "Google")?.url || "#";
+let telephone = SITE.contact.phone.office_1.href;
+
+
+
+
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro + TailwindCSS</title>
-	</head>
+<Main content={{ title: "Astro + TailwindCSS" }}>
+  
+    <!-- Replace with Hero -->
+<section class="pad-md">
+	    <Hero3
+      allowHTML={true}
+      client:load
+      heading="Serving Chicago’s South Suburbs for 20+ Years"
+      description={`Upfront pricing. Fast response. Plumbing service you can count on.`}
+      buttons={{
+        primary: { text: "Schedule Service", url: "/schedule" },
+        secondary: { text: "Call Now", url: "tel:+17085551234" }
+      }}
+      reviews={{
+        count: 170,
+        rating: 4.8,
+        avatars: [
+          { src: "./src/assets/images/avatars/m-30s-1-100.webp", alt: "Customer 1" },
+          { src: "./src/assets/images/avatars/w-40s-1-100.webp", alt: "Customer 2" },
+          { src: "./src/assets/images/avatars/w-50s-1-100.webp", alt: "Customer 3" },
+          { src: "./src/assets/images/avatars/m-50s-1-100.webp", alt: "Customer 4" },
+          { src: "./src/assets/images/avatars/w-30s-2-100.webp", alt: "Customer 5" }
+        ]
+      }}
+	  image={{
+      src: "./images/truck/cps-truck-in-front-of-customers-home.png",
+      alt: "Chicagoland Plumbing Services van serving Mokena, IL"
+    }}
+    />
+</section>
+	 <!-- SERVICES OVERVIEW (uses defaults; or pass your own items with icon names) -->
+ 
+<section class="pad-sm">
+	  <Feature132
+    heading="Our Most-Requested Services"
+    subheading="Local plumbers. Upfront pricing. Same-day availability."
+    cta={{ text: "View All Services", href: reviewLink }}
+    items={[
+      {
+        id: 1,
+        title: "Water Heater Replacement",
+        imageSrc: "/images/services/water-heaters/rheem-basement-water-heater.png",
+        imageAlt: "Water heater installation",
+        description: "Install & repair gas, electric, and power-vent units.",
+        href: "/services/water-heaters"
+      },
+      {
+        id: 2,
+        title: "Drain & Sewer Rodding",
+        imageSrc: "/images/services/rodding/sewer-rodding-service.webp",
+        imageAlt: "Clearing a main sewer",
+        description: "Fast relief for clogs in sinks, floor drains, and sewers.",
+        href: "/services/drain-rodding"
+      },
+      {
+        id: 3,
+        title: "Sump & Ejector Pumps",
+        imageSrc: "/images/services/sump-pump/zoeller-sump-pump-wet-floor_400px.webp",
+        imageAlt: "Sump pump installation",
+        description: "Install, repair, and battery backups to prevent flooding.",
+        href: "/services/pumps"
+      },
+      {
+  id: 4,
+  title: "Faucet Repairs",
+  imageSrc: "/images/services/faucets/pull-down-kitchen-faucet-chrome-sink_400px.webp",
+  imageAlt: "Pull-down kitchen faucet repair",
+  description: "Fix leaks, drips, and low pressure. Cartridge, stem, and handle repairs; new installs too.",
+  href: "/services/faucet-repairs"
+}
 
-	<body>
-		<div class="grid place-items-center h-screen content-center">
-			<Button>Tailwind Button in Astro!</Button>
-			<a href="/markdown-page" class="p-4 underline">Markdown is also supported...</a>
-		</div>
-	</body>
-</html>
+      // Add more items freely—layout will wrap:
+      // { id: 5, ... }, { id: 6, ... }
+    ]}
+  />
+</section>
+<section class="pad-md">
+  <Timeline10
+  client:visible
+   heading="How We Do Things"
+  currentPhase={3}
+  phases={[
+  { id: 1, date: "Step 1", title: "Book in Minutes", description: "Call or book online. We’ll confirm your appointment and lock in a 1-hour arrival window." },
+  { id: 2, date: "Step 2", title: "On-Our-Way Text", description: "Your technician texts when they’re en route, so you know exactly when to expect us." },
+  { id: 3, date: "Step 3", title: "Diagnose & Fix", description: "We assess the issue and complete most repairs the same day with fully stocked trucks." },
+  { id: 4, date: "Step 4", title: "Clean Up & Done", description: "We test everything, clean up the workspace, and provide an instant receipt." },
+]}
+/>
+</section>
+<section class="pad-sm">
+
+
+<Testimonial19
+  client:load
+  badgeField={false}
+  heading="What our customers are saying"
+  subheading="Trusted by businesses and homeowners across Chicagoland."
+  cta={{ text: "Read all reviews", href: "https://www.google.com/maps/place/Chicagoland+Plumbing+Services/@41.5364349,-87.8545944,886m/data=!3m1!1e3!4m8!3m7!1s0x880e14d4f54d4f1f:0xee4c88f7e57f5635!8m2!3d41.5364349!4d-87.8520141!9m1!1b1!16s%2Fg%2F1w_vnvyn?entry=ttu&g_ep=EgoyMDI1MDkzMC4wIKXMDSoASAFQAw%3D%3D" }}
+  testimonials={[
+  {
+    name: "Joanne B.",
+    role: "Frankfort",
+    avatar:
+      "./src/assets/images/avatars/w-40s-2-100.webp",
+    content:
+      "Great service, quick response to replace the water heater!  Give the company 5 stars!  If in need again, would definitely call them!",
+  },
+  {
+    name: "Tom L.",
+    role: "New Lenox",
+    avatar:
+      "./src/assets/images/avatars/m-40s-2-100.webp",
+    content:
+      "Would highly recommend Chicagoland Plumbing.  Their services were great and their workers were very knowledgeable and resolved our problem very quickly.  Wonderful!",
+  },
+
+  {
+    name: "Karen G.",
+    role: "Mokena",
+    avatar:
+      "./src/assets/images/avatars/w-40s-3-100.webp",
+    content:
+      "I can't say enough about the prompt, professional and courteous service we received from Chicagoland Plumbing!",
+  },
+  {
+    name: "William S.",
+    role: "Homer Glen",
+    avatar:
+      "./src/assets/images/avatars/m-40s-3-100.webp",
+    content:
+      "Perfect job, very clean and efficient! Will use them for all our plumbing needs! They are exceptional!",
+  },
+  {
+    name: "Brenna P.",
+    role: "Frankfort",
+    avatar:
+      "./src/assets/images/avatars/w-40s-4-100.webp",
+    content:
+      "Excellent experience. Same day service, friendly serviceman, very thorough and made sure to explain all the work done and equipment.",
+  },
+  {
+    name: "George O.",
+    role: "Palos Park",
+    avatar:
+      "./src/assets/images/avatars/m-50s-3-100.webp",
+    content:
+      "Brian was very professional and is great at what he does. We have had both Brian and Max several times and they were great. Would highly recommend them with your plumbing needs. ",
+  },
+]}
+/>
+ <Stats1 
+    stats={[
+      { id: 1, label: "Years in Business", value: "20+" },
+      { id: 2, label: "of Happy Customers", value: "1000s" },
+      { id: 3, label: "5-Star Reviews", value: "150+" },
+      { id: 4, label: "Average Rating", value: "4.8/5" },
+    ]}
+  />
+   
+</section>
+
+<section class="pad-sm">
+ <Logos5
+    heading="Trusted by Your Favorite Local Businesses"
+    subheading="and nation-wide chains alike"
+    logos={[
+      {
+        src: "./src/assets/images/logos/customer-logos/culvers-logo.webp",
+        alt: "Culver's",
+        width: 155,
+      },
+      {
+        src: "./src/assets/images/logos/customer-logos/reclaim-fitness-black.webp",
+        alt: "Reclaim Fitness",
+        width: 180,
+      },
+      {
+        src: "./src/assets/images/logos/customer-logos/chiro-one-logo.webp",
+        alt: "Chiro One Wellness Centers",
+        width: 170
+      },
+      {
+        src: "./src/assets/images/logos/customer-logos/nothing-bundt-cakes.webp",
+        alt: "Nothing Bundt Cakes",
+        width: 110,
+      },
+       {
+        src: "./src/assets/images/logos/customer-logos/zap-taco-logo.avif",
+        alt: "Zap Tacos",
+        width: 110,
+      },
+     
+      {
+        src: "./src/assets/images/logos/customer-logos/sherman-williams-logo.webp",
+        alt: "Sherwin Williams",
+        width: 180,
+      },
+      
+      {
+        src: "./src/assets/images/logos/customer-logos/alsip-nursery-logo.webp",
+        alt: "Alsip Nursery",
+        width: 170,
+      },
+    ]}
+  />
+</section>
+
+<section class="pad-sm">
+
+<Cta12
+  heading="Ready to take back control of your plumbing?"
+  description="Book online in minutes, or call to speak with a live person."
+  tone="secondary"
+  textVariant="auto"
+  className="shadow-lg"
+  sectionClassName="py-24"
+  buttons={{
+    primary: {
+      text: "Buy Now",
+      url: "https://example.com/pricing",
+      buttonProps: { size: "lg" },
+    },
+    secondary: {
+      text: "Call Now",
+      url: `${telephone}`,
+      icon: Phone,                    
+      iconClassName: "h-4 w-4 mr-2",   
+      buttonProps: { variant: "ghost", size: "lg", className: "border-2 bg-none", "data-tally-open": "w4e1PO" },
+    },
+  }}
+/>
+</Main>

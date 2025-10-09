@@ -22,3 +22,9 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+*storybook.log
+storybook-static
+
+# Invalid Windows filename
+NUL

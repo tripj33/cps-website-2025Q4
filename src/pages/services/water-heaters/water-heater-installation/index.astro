@@ -1,0 +1,595 @@
+---
+import "@/styles/global.css";
+import Main from "@/layouts/main.astro";
+import { SITE, telHref } from "@/data/site";
+
+import HeroSection from "./HeroSection.tsx";
+import BenefitsSection from "./BenefitsSection.tsx";
+import WhatWeInstallSection from "./WhatWeInstallSection.tsx";
+import WhyRheemSection from "./WhyRheemSection.tsx";
+import PricingSection from "./PricingSection.tsx";
+import SchedulingSection from "./SchedulingSection.tsx";
+import RepairVsReplaceSection from "./RepairVsReplaceSection.tsx";
+import FinalCTASection from "./FinalCTASection.tsx";
+import FaqSection from "./FaqSection.tsx";
+
+type Pad = "pad-sm" | "pad-md" | "pad-lg";
+const padHero: Pad = "pad-lg";
+const padBenefits: Pad = "pad-md";
+const padWhy: Pad = "pad-md";
+const padPricing: Pad = "pad-md";
+
+/* const image sources (easy swap) */
+const HERO_MAIN = "/src/assets/images/hero/water-heater-main.webp";
+const HERO_SECOND = "/src/assets/images/hero/water-heater-tech.webp";
+
+/* avatar images */
+const AVATARS = [
+  { src: "/src/assets/images/avatars/m-30s-1-100.webp", alt: "Happy customer 1" },
+  { src: "/src/assets/images/avatars/w-30s-1-100.webp", alt: "Happy customer 2" },
+  { src: "/src/assets/images/avatars/m-40s-2-100.webp", alt: "Happy customer 3" },
+  { src: "/src/assets/images/avatars/w-40s-3-100.webp", alt: "Happy customer 4" },
+  { src: "/src/assets/images/avatars/m-50s-1-100.webp", alt: "Happy customer 5" },
+];
+
+const hero = {
+  padClass: padHero,
+  kicker: "Water Heater Installation",
+  titlePrefix: "Water Heater Installation", // optional — shows before the em dash
+  heading: "Fast, Local, Upfront",
+  brandLine: "",
+  subheading:
+    "Rheem® gas & electric tanks in 40, 50 & 75 gallons. Same-day or next-day installs, a 1-hour arrival window, and a text when your tech is on the way.",
+
+  price: {
+    enabled: true,
+    label: "Installation from",
+    value: "$1,299",
+    note: "for a standard 40-gal replacement.",
+  },
+
+  ctas: {
+    primary: {
+      enabled: true,
+      label: "Schedule Online",
+      href: "#booking",
+      size: "lg",
+      variant: "default",
+      "data-tally-open": "w4e1PO",
+      "data-tally-emoji-text": "📅",
+      "data-tally-emoji-animation": "none",
+      "data-tally-auto-close": "0",
+      "data-tally-form-events-forwarding": "1",
+    },
+    secondary: {
+      enabled: false,
+      label: "Call Now",
+      href: {telHref},
+      size: "lg",
+      variant: "outline",
+    },
+  },
+
+  avatars: AVATARS,
+
+  trust: { rating: 4.8, reviews: 170, badge: "Licensed & Insured" },
+
+  media: {
+    main: {
+      src: HERO_MAIN,
+      alt: "New Rheem water heater installed neatly in a utility room",
+      width: 960, height: 1280,
+      fetchpriority: "high" as const,
+      loading: "eager" as const,
+    },
+    secondary: {
+      desktopOnly: true,
+      src: HERO_SECOND,
+      alt: "Technician arriving within a 1-hour window",
+      width: 960, height: 1280,
+      loading: "lazy" as const,
+    },
+  },
+} as const;
+
+/** QUICK BENEFITS — tuned for niche + SEO */
+const benefits = {
+  padClass: padBenefits,
+  heading: "Why Chicagoland Chooses Us",
+  items: [
+    {
+      id: "benefit-pricing",
+      title: "Written, upfront pricing",
+      description: "Know the exact price before work begins—no surprises.",
+      icon: "ReceiptText",
+    },
+    {
+      id: "benefit-window",
+      title: "1-hour arrival window + text",
+      description: "Get your tech’s name/photo and an on-the-way message.",
+      icon: "Clock",
+    },
+    {
+      id: "benefit-warranty",
+      title: "6/9/12-year Rheem® warranties",
+      description: "We register your unit and review how to keep coverage.",
+      icon: "ShieldCheck",
+    },
+    {
+      id: "benefit-haul",
+      title: "Removal & haul-away included",
+      description: "Old tank out, space cleaned up—no extra hassle.",
+      icon: "Truck",
+    },
+  ],
+} as const;
+
+
+/* ----------------- WHAT WE INSTALL ----------------- */
+const WHAT_LEFT   = "/src/assets/images/what/wh-left.webp";
+const WHAT_MIDDLE = "/src/assets/images/what/wh-middle.webp";
+const WHAT_RIGHT  = "/src/assets/images/what/wh-right.webp";
+
+/** Copy tuned for SEO & clarity (Rheem models/sizes/fuels, common options) */
+const whatWeInstall = {
+  padClass: "pad-md",
+  heading: "What We Install",
+  blurb:
+    "We stock popular Rheem® water heaters and can special-order when needed. We match size, fuel, venting, and warranty to your home for reliable hot water—no surprises.",
+
+  images: {
+    left: {
+      src: WHAT_LEFT,
+      alt: "Installed Rheem gas water heater with venting",
+      width: 640, height: 960,
+    },
+    middle: {
+      src: WHAT_MIDDLE,
+      alt: "Technician staging new 50-gallon Rheem tank",
+      width: 640, height: 960,
+    },
+    right: {
+      src: WHAT_RIGHT,
+      alt: "Electric water heater with shutoff and expansion tank",
+      width: 640, height: 960,
+    },
+  },
+
+  /** Up to 6 bullets — concise, helpful, SEO-aware */
+  points: [
+    {
+      id: "gas-40",
+      title: "Gas — 40, 50 & 75 gallons",
+      description:
+        "Standard atmospheric-vent tanks sized to your usage and recovery needs.",
+    },
+    {
+      id: "power-vent",
+      title: "Gas — Power-Vent / Direct-Vent",
+      description:
+        "Side-wall venting for homes without a chimney or limited make-up air.",
+    },
+    {
+      id: "electric",
+      title: "Electric — 40, 50 & 75 gallons",
+      description:
+        "For homes without gas. We verify breaker/wire size and element rating.",
+    },
+    {
+      id: "condensing",
+      title: "High-Efficiency (Condensing) Gas",
+      description:
+        "Higher UEF and faster recovery where venting allows; proper condensate handling included.",
+    },
+    {
+      id: "form-factor",
+      title: "Short & tall form factors",
+      description:
+        "Low-boy for tight closets; tall for basements. Clearances and code checked on-site.",
+    },
+    {
+      id: "warranty",
+      title: "6/9/12-year Rheem® warranties",
+      description:
+        "Registration handled for you; we review anodes and maintenance to extend life.",
+    },
+  ],
+} as const;
+
+
+const whyRheem = {
+  padClass: padWhy,
+  heading: "Why Rheem® for Water Heaters?",
+  subheading:
+    "Dependable tanks, nationwide parts, and straightforward warranties. We install the right model for your home and handle registration, permits, and code compliance.",
+
+  // Up to 6 items; choose icons: ShieldCheck | Wrench | Truck | Flame | Gauge | Wifi
+  items: [
+    {
+      id: "reliability",
+      icon: "ShieldCheck",
+      title: "Proven reliability & coverage",
+      description:
+        "Choose 6-, 9-, or 12-year tank warranties—registration included.",
+    },
+    {
+      id: "parts",
+      icon: "Truck",
+      title: "Fast local parts access",
+      description:
+        "Common valves, thermostats, and anodes are widely stocked for quicker service.",
+    },
+    {
+      id: "efficiency",
+      icon: "Gauge",
+      title: "Efficient, right-sized options",
+      description:
+        "Standard gas, power-vent, and condensing models with higher UEF and quicker recovery.",
+    },
+    {
+      id: "safe",
+      icon: "Flame",
+      title: "Built-in safety",
+      description:
+        "Flammable vapor resistance, reliable T&P protection, and robust venting that meets local code.",
+    },
+    {
+      id: "support",
+      icon: "Wrench",
+      title: "Serviceable design",
+      description:
+        "Clear documentation and accessible components make installs and future service straightforward.",
+    },
+  ],
+
+  // Optional CTAs (toggleable)
+  ctas: {
+    enabled: false, // turn the whole CTA area on/off
+    primary: {
+      enabled: true,
+      label: "See Rheem Homeowner Resources",
+      href: "https://www.rheem.com/water-heating/", // good informational link
+      size: "lg",
+      variant: "outline",
+    },
+    secondary: {
+      enabled: false,
+      label: "Contact Rheem Support",
+      href: "https://www.rheem.com/contact/",
+      size: "lg",
+      variant: "ghost",
+    },
+  },
+} as const;
+
+
+const pricing = {
+  padClass: padPricing,
+  heading: "Transparent Pricing",
+  subheading:
+    "Your final price is confirmed on-site after we review venting, fuel, and code items. No work begins without your approval.",
+
+  fuelToggle: {
+    defaultFuel: "gas",       // "gas" | "electric"
+    labelGas: "Gas",
+    labelElectric: "Electric",
+  },
+
+  plans: [
+    {
+      id: "40-gal",
+      enabled: true,          // toggle card on/off
+      name: "40-Gallon",
+      highlighted: false,
+      fuelCopy: {
+        gas: {
+          price: "Starting at $1,299",
+          subline: "Standard replacement · atmospheric vent",
+          description:
+            "Sized for many 2–3 person homes. We confirm venting, shutoffs, and code items on-site.",
+        },
+        electric: {
+          price: "Starting at $1,199",
+          subline: "Standard replacement",
+          description:
+            "Ideal where gas isn’t available. We verify breaker/wire size and element rating.",
+        },
+      },
+      features: [
+        "Delivery & haul-away",
+        "Install in existing location",
+        "New T&P valve and discharge line",
+        "Gas/electric flex & water connections (as needed)",
+        "Permit & inspection where required",
+      ],
+      cta: {
+        enabled: true,
+        label: "Schedule 40-Gallon",
+        href: "#booking",
+        size: "lg",
+        variant: "default",
+      },
+    },
+
+    {
+      id: "50-gal",
+      enabled: true,
+      name: "50-Gallon",
+      highlighted: true,
+      fuelCopy: {
+        gas: {
+          price: "Starting at $1,449",
+          subline: "Standard replacement · atmospheric vent",
+          description:
+            "Our most common size for families. Ask about power-vent if your home needs side-wall venting.",
+        },
+        electric: {
+          price: "Starting at $1,349",
+          subline: "Standard replacement",
+          description:
+            "Good for medium households. We’ll recommend high-recovery elements if faster heat-up is needed.",
+        },
+      },
+      features: [
+        "Delivery & haul-away",
+        "Install in existing location",
+        "New T&P valve and discharge line",
+        "Expansion tank/pan if required by code",
+        "Permit & inspection where required",
+      ],
+      cta: {
+        enabled: true,
+        label: "Schedule 50-Gallon",
+        href: "#booking",
+        size: "lg",
+        variant: "default",
+      },
+    },
+
+    {
+      id: "75-gal",
+      enabled: true,
+      name: "75-Gallon",
+      highlighted: false,
+      fuelCopy: {
+        gas: {
+          price: "Starting at $1,899",
+          subline: "High capacity replacement",
+          description:
+            "For large homes, soaker tubs, or high hot-water demand. We review venting and gas supply on-site.",
+        },
+        electric: {
+          price: "Starting at $1,749",
+          subline: "High capacity replacement",
+          description:
+            "For high-demand electric setups. We check panel capacity and wire sizing.",
+        },
+      },
+      features: [
+        "Delivery & haul-away",
+        "Install in existing location",
+        "New T&P valve and discharge line",
+        "Code-required updates (quote provided if beyond standard)",
+        "Permit & inspection where required",
+      ],
+      cta: {
+        enabled: true,
+        label: "Schedule 75-Gallon",
+        href: "#booking",
+        size: "lg",
+        variant: "default",
+      },
+    },
+  ],
+
+  footnote:
+    "Common exclusions: major re-piping, relocation, venting changes, and code corrections beyond standard replacement. We review these on-site and provide options before any work begins.",
+} as const;
+
+
+const scheduling = {
+  padClass: "pad-md",
+  heading: "How Scheduling Works",
+  subheading:
+    "Book online, get a 1-hour arrival window with live text updates, and approve a written price before any work begins.",
+  animation: { enabled: true, once: true, staggerMs: 120 },
+  steps: [
+    { id: "book",  icon: "CalendarClock", title: "1) Book online or call", description: "Pick a day and 1-hour arrival window. Instant confirmation—no phone tag." },
+    { id: "text",  icon: "Smartphone",    title: "2) Text updates & ETA",  description: "We text your technician’s name/photo and send an on-the-way message." },
+    { id: "quote", icon: "Wrench",        title: "3) On-site quote",       description: "We check venting, gas/electric, and code items. Approve the price before we start." },
+    { id: "install", icon: "ShieldCheck", title: "4) Install to code",     description: "Rheem® heater installed to code, permits handled where required." },
+    { id: "walk",  icon: "Handshake",     title: "5) Cleanup & walkthrough", description: "Old unit hauled away; we review operation, safety, and warranty." },
+    { id: "follow",icon: "Smile",         title: "6) Follow-up & support",  description: "You’ll get registration and care tips by email. Local support if needed." },
+  ],
+} as const;
+
+
+const repairVsReplace = {
+  padClass: "pad-md",
+  className: "full-width mx-auto flex justify-center",
+  heading: "Repair vs. Replace — What’s right for your water heater?",
+  subheading:
+    "If your tank is leaking or over 10 years old, replacement is usually the safest and most cost-effective fix. Minor component failures on newer units can often be repaired the same day.",
+  replace: {
+    enabled: true,
+    label: "Replace",
+    tagline: "Best when the tank is failing or near end of life",
+    points: [
+      "Tank is leaking or shows rust at fittings or the base",
+      "Age 8–12+ years (varies by water quality and maintenance)",
+      "Frequent pilot/ignition issues or burner/element failures",
+      "Visible corrosion on supply lines, shutoffs, or venting",
+      "Rusty or discolored hot water coming from faucets",
+      "Upgrading capacity (50–75 gal) or venting for safety/efficiency",
+    ],
+    mutedPoints: [
+      "Keep repairing a leaking tank",
+    ],
+    cta: {
+      enabled: true,
+      label: "Schedule Replacement",
+      href: "#booking",
+      size: "lg",
+      variant: "default",
+    },
+  },
+  repair: {
+    enabled: true,
+    label: "Repair",
+    tagline: "Good for newer tanks in otherwise solid condition",
+    points: [
+      "Minor part failure: thermostat, heating element, igniter, gas valve",
+      "Unit under ~6 years old and well maintained",
+      "No tank leaks and venting/drafting checks out",
+      "Warranty is active (we can assist with parts)",
+      "Sediment flush restores performance on slow-heating tanks",
+    ],
+    mutedPoints: [
+      "Repairing a rusted or leaking tank",
+    ],
+    cta: {
+      enabled: true,
+      label: "Request Repair Visit",
+      href: "#booking",
+      size: "lg",
+      variant: "outline",
+    },
+  },
+  footnote:
+    "We confirm your best option on-site after inspecting venting, gas/electric, and local code requirements. No work begins without your approval.",
+} as const;
+
+const padFinal: Pad = "pad-md";
+
+const ctaFinal = {
+  padClass: padFinal,
+  heading: "Ready to replace your water heater?",
+  body:
+    "Book in under a minute. Get a 1-hour arrival window and a text when we’re en route. Upfront, written price before any work begins.",
+  media: {
+    src: "/src/assets/images/hero/water-heater-tech.webp",
+    alt: "Licensed technician installing a Rheem water heater in a clean utility room",
+    width: 1200,
+    height: 800,
+    loading: "lazy" as const,
+    fetchpriority: "auto" as const,
+  },
+  ctas: {
+    enabled: true,
+    primary: {
+      enabled: true,
+      label: "Schedule Online",
+      href: "#booking",
+      size: "lg",
+      variant: "default",
+    },
+    secondary: {
+      enabled: true,
+      label: "Call Now",
+      href: {telHref},
+      size: "lg",
+      variant: "outline",
+    },
+  },
+} as const;
+
+
+const faqs = {
+  padClass: "pad-md",
+  badge: "FAQ",
+  heading: "Water Heater Installation FAQs",
+  intro:
+    "Straight answers to the most common questions about sizing, timing, permits, warranties, and what’s included.",
+  schema: {
+    enabled: true,
+    pageTitle: "Water Heater Installation — Frequently Asked Questions",
+    businessName: "Chicagoland Plumbing Services",
+  },
+  items: [
+    {
+      id: "timing",
+      enabled: true,
+      question: "How long does a water heater installation take?",
+      answer:
+        "Most standard replacements take <strong>2–4 hours</strong>. We arrive within a <strong>1-hour window</strong>, review your setup, present a written price, then complete the install and cleanup the same visit.",
+    },
+    {
+      id: "permits",
+      enabled: true,
+      question: "Do you pull permits and handle inspection?",
+      answer:
+        "Yes. In towns that require it, we <strong>pull the permit</strong> and schedule inspection. Our work meets local code and manufacturer requirements.",
+    },
+    {
+      id: "sizing",
+      enabled: true,
+      question: "What size water heater do I need?",
+      answer:
+        "Many homes use <strong>40–50 gallon</strong> tanks. Larger households or soaker tubs often benefit from <strong>75 gallon</strong>. We confirm the right size on-site based on usage and recovery needs.",
+    },
+    {
+      id: "gas-vs-electric",
+      enabled: true,
+      question: "Gas vs. electric — which is best?",
+      answer:
+        "We typically recommend staying with your current fuel type for the most cost-effective replacement. We’ll verify venting, gas/electric, and panel capacity and explain options such as power-vent or high-efficiency models.",
+    },
+    {
+      id: "warranty",
+      enabled: true,
+      question: "How long do Rheem water heaters last, and what’s the warranty?",
+      answer:
+        "Typical lifespan is <strong>8–12 years</strong> depending on water quality and maintenance. We offer <strong>6/9/12-year</strong> tank warranties and register your unit for you.",
+    },
+    {
+      id: "whats-included",
+      enabled: true,
+      question: "What’s included in a standard installation?",
+      answer:
+        "Delivery of the new Rheem unit, install in the existing location, new T&P valve and discharge line, gas/electric and water connections as needed, haul-away of the old tank, and permit/inspection where required.",
+    },
+    {
+      id: "price-confirmation",
+      enabled: true,
+      question: "When is the final price confirmed?",
+      answer:
+        "On-site after we review venting, gas/electric, and code items. <strong>No work begins without your approval</strong> and a written price.",
+    },
+    {
+      id: "relocation",
+      enabled: true,
+      question: "Can you relocate my water heater?",
+      answer:
+        "Yes. Relocations and major re-piping require a site visit. We’ll provide options and a written quote before work begins.",
+    },
+  ],
+} as const;
+---
+<Main
+  content={{
+    title: "Water Heater Installation | Chicagoland Plumbing Services",
+    description:
+      "Professional water heater installation in the Chicagoland southern suburbs. Same-day or next-day Rheem installs, upfront pricing, and a 1-hour arrival window from licensed local plumbers.",
+  }}
+>
+  <!-- HERO -->
+  <HeroSection {...hero} client:load />
+
+  <!-- QUICK BENEFITS (SSR is fine—no hydration needed) -->
+  <BenefitsSection {...benefits} />
+
+  <WhatWeInstallSection {...whatWeInstall} />
+
+  <!-- WHY RHEEM -->
+  <WhyRheemSection {...whyRheem} />
+
+  <PricingSection {...pricing} client:visible />
+
+  <SchedulingSection {...scheduling} client:visible />
+
+  <RepairVsReplaceSection {...repairVsReplace} />
+
+  <FaqSection {...faqs} />
+
+  <FinalCTASection {...ctaFinal} />
+</Main>
