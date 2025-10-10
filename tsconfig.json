@@ -13,7 +13,8 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "jsxImportSource": "react",
-
+    "resolveJsonModule": true,
+    "moduleResolution": "bundler", // or "node" is fine too
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],

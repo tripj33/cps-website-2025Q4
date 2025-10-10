@@ -4,7 +4,10 @@
  * ⚠️ Replace placeholder values (marked TODO) with your real data.
  */
 
-export type SiteConfig = typeof SITE;
+import service_prices from "./services.json";
+
+
+
 
 export const SITE = {
   // ──────────────────────────────────────────────
@@ -69,6 +72,8 @@ export const SITE = {
     },
     timezone: "America/Chicago",
   },
+
+
 
   // ──────────────────────────────────────────────
   // Web / Branding
@@ -166,7 +171,7 @@ export const SITE = {
     notes:
       "Service scope may vary by municipality and licensing requirements. Commercial boiler/chiller scope depends on BTU and local code.",
   },
-
+  service_prices: service_prices,
   // ──────────────────────────────────────────────
   // Service Areas (South/Southwest Suburbs — example set)
   // ──────────────────────────────────────────────
