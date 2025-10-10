@@ -4,10 +4,24 @@
  * ⚠️ Replace placeholder values (marked TODO) with your real data.
  */
 
-import service_prices from "./services.json";
+import servicesJson from "./services.json";
 
+type Service = {
+  name: string;
+  price: number;
+  uuid: string;
+  type: string;
+};
 
+type Services = {
+  water_heater: Service[];
+  rodding: Service[];
+  sump_pump: Service[];
+  ejector_pump: Service[];
+};
 
+// Take the first element of the array
+const service_prices: Services = (servicesJson as Services[])[0];
 
 export const SITE = {
   // ──────────────────────────────────────────────
@@ -171,7 +185,7 @@ export const SITE = {
     notes:
       "Service scope may vary by municipality and licensing requirements. Commercial boiler/chiller scope depends on BTU and local code.",
   },
-  service_prices: service_prices,
+  service_prices,
   // ──────────────────────────────────────────────
   // Service Areas (South/Southwest Suburbs — example set)
   // ──────────────────────────────────────────────
