@@ -31,40 +31,32 @@ export interface CTA extends DataAttrs {
 }
 
 export interface FuelCopy {
-  /** Price text like "$1,299" or "Starting at $1,299"—you control exact phrasing */
   price?: string;
-  /** Small line under price, e.g., "for standard 40-gal replacement" */
   subline?: string;
-  /** Short description for this fuel selection */
   description?: string;
 }
 
 export interface PricingPlan {
   id: string;
-  enabled?: boolean;      // ← toggle the card on/off
-  name: string;           // e.g., "40-Gallon", "50-Gallon", "75-Gallon"
-  highlighted?: boolean;  // accent border
-  features: string[];     // checklist
-  /** Per-fuel copy. If a fuel key is missing, the card simply shows nothing for that field. */
+  enabled?: boolean;
+  name: string;
+  highlighted?: boolean;
+  features: string[];
   fuelCopy: Partial<Record<Fuel, FuelCopy>>;
-  /** Per-card CTA control (optional). If omitted, no button appears. */
   cta?: CTA;
 }
 
 export interface PricingProps {
-  padClass?: string;      // "pad-sm" | "pad-md" | "pad-lg"
+  padClass?: string;
   className?: string;
   heading?: string;
   subheading?: string;
-  /** Gas/Electric toggle labels & default fuel */
   fuelToggle?: {
-    defaultFuel?: Fuel;             // default: "gas"
-    labelGas?: string;              // default: "Gas"
-    labelElectric?: string;         // default: "Electric"
+    defaultFuel?: Fuel;
+    labelGas?: string;
+    labelElectric?: string;
   };
-  /** Plans (we render only those with enabled !== false) */
   plans: PricingPlan[];
-  /** Optional legal/notes under the cards */
   footnote?: string;
 }
 
@@ -91,12 +83,21 @@ export default function PricingSection({
   const labelElectric = fuelToggle?.labelElectric ?? "Electric";
 
   const visiblePlans = React.useMemo(
-    () => plans.filter((p) => p.enabled !== false),
-    [plans]
+    () => plans.filter((p) => p.enabled !== false && p.fuelCopy && !!p.fuelCopy[fuel]),
+    [plans, fuel]
   );
 
+  // Dynamically decide grid layout
+  const cardCount = visiblePlans.length;
+  const gridClass =
+    cardCount === 2
+      ? // Center 2 cards as a pair with consistent spacing
+        "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-7 justify-center max-w-4xl mx-auto"
+      : // Standard 3+ layout
+        "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7 justify-center";
+
   return (
-    <section className={`bg-background ${padClass ?? ""} ${className ?? ""}`}>
+    <section className={`bg-background ${padClass ?? ""} ${className ?? ""}`} id="pricing">
       <div className="container flex flex-col gap-10 lg:gap-12">
         {/* Heading */}
         <div className="text-center">
@@ -116,17 +117,17 @@ export default function PricingSection({
             onValueChange={(value) => {
               if (value === "gas" || value === "electric") setFuel(value);
             }}
-            className="rounded-lg bg-muted p-1"
+            className="p-1 rounded-lg bg-muted"
           >
             <ToggleGroupItem
               value="gas"
-              className="h-8 w-32 rounded-md data-[state=on]:bg-background data-[state=on]:text-secondary"
+              className="h-8 w-32 rounded-md data-[state=on]:bg-background data-[state=on]:text-secondary cursor-pointer "
             >
               {labelGas}
             </ToggleGroupItem>
             <ToggleGroupItem
               value="electric"
-              className="h-8 w-32 rounded-md data-[state=on]:bg-background data-[state=on]:text-secondary"
+              className="h-8 w-32 rounded-md data-[state=on]:bg-background data-[state=on]:text-secondary cursor-pointer "
             >
               {labelElectric}
             </ToggleGroupItem>
@@ -134,7 +135,7 @@ export default function PricingSection({
         </div>
 
         {/* Pricing Cards */}
-        <div className="flex flex-wrap justify-center gap-7">
+        <div className={gridClass}>
           {visiblePlans.map((plan) => {
             const copy = plan.fuelCopy[fuel];
             const showCTA = !!plan.cta?.enabled && !!plan.cta?.label && !!plan.cta?.href;
@@ -142,7 +143,7 @@ export default function PricingSection({
             return (
               <Card
                 key={plan.id}
-                className={`max-w-sm rounded-3xl border ${
+                className={`max-w-sm w-full rounded-3xl border ${
                   plan.highlighted ? "border-2 border-primary" : "border-border"
                 } shadow-sm`}
               >
@@ -151,7 +152,7 @@ export default function PricingSection({
                     {plan.name}
                   </CardTitle>
 
-                  {/* Price & subline (fuel-specific) */}
+                  {/* Price & subline */}
                   <div className="mt-4">
                     {copy?.price && (
                       <div className="text-4xl font-semibold tracking-tight text-foreground">
@@ -166,19 +167,19 @@ export default function PricingSection({
                   </div>
                 </CardHeader>
 
-                <CardContent className="px-7 pt-4 pb-7">
-                  {/* Description (fuel-specific) */}
+                <CardContent className="pt-4 px-7 pb-7">
+                  {/* Description */}
                   {copy?.description && (
                     <p className="text-sm text-muted-foreground">{copy.description}</p>
                   )}
 
-                  {/* CTA (optional, fully controlled) */}
+                  {/* CTA */}
                   {showCTA && (
                     <Button
                       asChild
                       size={plan.cta?.size ?? "lg"}
                       variant={plan.cta?.variant ?? "default"}
-                      className="mt-6 w-full"
+                      className="w-full mt-6"
                       {...pickDataAttrs(plan.cta)}
                     >
                       <a href={plan.cta!.href}>{plan.cta!.label}</a>
@@ -188,9 +189,9 @@ export default function PricingSection({
                   {/* Features */}
                   {plan.features?.length ? (
                     <>
-                      <div className="relative mt-10 mb-4 flex items-center justify-center overflow-hidden">
+                      <div className="relative flex items-center justify-center mt-10 mb-4 overflow-hidden">
                         <Separator />
-                        <span className="px-3 text-xs text-muted-foreground opacity-50">
+                        <span className="px-3 text-xs opacity-50 text-muted-foreground">
                           WHAT’S INCLUDED
                         </span>
                         <Separator />
@@ -216,7 +217,7 @@ export default function PricingSection({
 
         {/* Footnote */}
         {footnote && (
-          <p className="mx-auto max-w-3xl text-center text-sm text-muted-foreground">
+          <p className="max-w-3xl mx-auto text-sm text-center text-muted-foreground">
             {footnote}
           </p>
         )}

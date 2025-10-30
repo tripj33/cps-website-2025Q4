@@ -1,29 +1,34 @@
 ---
+/* ============================================================================
+   IMPORTS & BASE SETUP
+   ========================================================================== */
 import "@/styles/global.css";
 import Main from "@/layouts/main.astro";
 import { SITE, telHref } from "@/data/site";
 
-import HeroSection from "./HeroSection.tsx";
-import BenefitsSection from "./BenefitsSection.tsx";
-import WhatWeInstallSection from "./WhatWeInstallSection.tsx";
-import WhyRheemSection from "./WhyRheemSection.tsx";
-import PricingSection from "./PricingSection.tsx";
-import SchedulingSection from "./SchedulingSection.tsx";
-import RepairVsReplaceSection from "./RepairVsReplaceSection.tsx";
-import FinalCTASection from "./FinalCTASection.tsx";
-import FaqSection from "./FaqSection.tsx";
+/* Page sections (TSX components) */
+import HeroSection from "./_sections/HeroSection.tsx";
+import BenefitsSection from "./_sections/BenefitsSection.tsx";
+import WhatWeInstallSection from "./_sections/WhatWeInstallSection.tsx";
+import WhyRheemSection from "./_sections/WhyRheemSection.tsx";
+import PricingSection from "./_sections/PricingSection.tsx";
+import SchedulingSection from "./_sections/SchedulingSection.tsx";
+import RepairVsReplaceSection from "./_sections/RepairVsReplaceSection.tsx";
+import FinalCTASection from "./_sections/FinalCTASection.tsx";
+import FaqSection from "./_sections/FaqSection.tsx";
 
+/* Pads for vertical rhythm */
 type Pad = "pad-sm" | "pad-md" | "pad-lg";
 const padHero: Pad = "pad-lg";
 const padBenefits: Pad = "pad-md";
 const padWhy: Pad = "pad-md";
 const padPricing: Pad = "pad-md";
 
-/* const image sources (easy swap) */
+/* Global image sources (easy swap) */
 const HERO_MAIN = "/src/assets/images/hero/water-heater-main.webp";
 const HERO_SECOND = "/src/assets/images/hero/water-heater-tech.webp";
 
-/* avatar images */
+/* Avatar images (used for social proof) */
 const AVATARS = [
   { src: "/src/assets/images/avatars/m-30s-1-100.webp", alt: "Happy customer 1" },
   { src: "/src/assets/images/avatars/w-30s-1-100.webp", alt: "Happy customer 2" },
@@ -32,6 +37,11 @@ const AVATARS = [
   { src: "/src/assets/images/avatars/m-50s-1-100.webp", alt: "Happy customer 5" },
 ];
 
+/* ============================================================================
+   HERO
+   - Localized for Chicagoland (southern suburbs)
+   - Promise-driven headline + clear pricing note
+   ========================================================================== */
 const hero = {
   padClass: padHero,
   kicker: "Water Heater Installation",
@@ -62,9 +72,9 @@ const hero = {
       "data-tally-form-events-forwarding": "1",
     },
     secondary: {
-      enabled: false,
-      label: "Call Now",
-      href: {telHref},
+      enabled: true, // set true to show the call CTA; flip to false if you want single CTA
+      label: "See Pricing",
+      href: "#pricing", // use imported telHref variable (no braces needed inside object literal)
       size: "lg",
       variant: "outline",
     },
@@ -92,45 +102,51 @@ const hero = {
   },
 } as const;
 
-/** QUICK BENEFITS — tuned for niche + SEO */
+/* ============================================================================
+   QUICK BENEFITS
+   - Short, scannable, and aligned with the booking promise
+   ========================================================================== */
 const benefits = {
   padClass: padBenefits,
   heading: "Why Chicagoland Chooses Us",
   items: [
     {
       id: "benefit-pricing",
-      title: "Written, upfront pricing",
-      description: "Know the exact price before work begins—no surprises.",
+      title: "Honest, upfront pricing",
+      description: "Know what it will cost before work begins—no surprises.",
       icon: "ReceiptText",
     },
     {
       id: "benefit-window",
       title: "1-hour arrival window + text",
-      description: "Get your tech’s name/photo and an on-the-way message.",
+      description: "Get your tech’s name and an on-the-way message.",
       icon: "Clock",
     },
     {
-      id: "benefit-warranty",
-      title: "6/9/12-year Rheem® warranties",
-      description: "We register your unit and review how to keep coverage.",
-      icon: "ShieldCheck",
-    },
+  id: "reliability",
+  icon: "ShieldCheck",
+  title: "Proven reliability & coverage",
+  description:
+    "6, 9, or 12-year manufacturer tank coverage from Rheem.",
+},
+
     {
       id: "benefit-haul",
-      title: "Removal & haul-away included",
+      title: "Removal & haul-away",
       description: "Old tank out, space cleaned up—no extra hassle.",
       icon: "Truck",
     },
   ],
 } as const;
 
-
-/* ----------------- WHAT WE INSTALL ----------------- */
+/* ============================================================================
+   WHAT WE INSTALL
+   - Common models/sizes/fuels with clear, non-technical blurbs
+   ========================================================================== */
 const WHAT_LEFT   = "/src/assets/images/what/wh-left.webp";
 const WHAT_MIDDLE = "/src/assets/images/what/wh-middle.webp";
 const WHAT_RIGHT  = "/src/assets/images/what/wh-right.webp";
 
-/** Copy tuned for SEO & clarity (Rheem models/sizes/fuels, common options) */
 const whatWeInstall = {
   padClass: "pad-md",
   heading: "What We Install",
@@ -138,117 +154,108 @@ const whatWeInstall = {
     "We stock popular Rheem® water heaters and can special-order when needed. We match size, fuel, venting, and warranty to your home for reliable hot water—no surprises.",
 
   images: {
-    left: {
-      src: WHAT_LEFT,
-      alt: "Installed Rheem gas water heater with venting",
-      width: 640, height: 960,
-    },
-    middle: {
-      src: WHAT_MIDDLE,
-      alt: "Technician staging new 50-gallon Rheem tank",
-      width: 640, height: 960,
-    },
-    right: {
-      src: WHAT_RIGHT,
-      alt: "Electric water heater with shutoff and expansion tank",
-      width: 640, height: 960,
-    },
+    left:   { src: WHAT_LEFT,   alt: "Installed Rheem gas water heater with venting", width: 640, height: 960 },
+    middle: { src: WHAT_MIDDLE, alt: "Technician staging new 50-gallon Rheem tank",   width: 640, height: 960 },
+    right:  { src: WHAT_RIGHT,  alt: "Electric water heater with shutoff and expansion tank", width: 640, height: 960 },
   },
 
-  /** Up to 6 bullets — concise, helpful, SEO-aware */
   points: [
     {
       id: "gas-40",
       title: "Gas — 40, 50 & 75 gallons",
-      description:
-        "Standard atmospheric-vent tanks sized to your usage and recovery needs.",
+      description: "Standard atmospheric-vent tanks sized to your usage and recovery needs.",
+    },
+    {
+      id: "electric",
+      title: "Electric — 40 50 gallons",
+      description: "For homes without gas. We verify breaker/wire size and element rating.",
     },
     {
       id: "power-vent",
       title: "Gas — Power-Vent / Direct-Vent",
-      description:
-        "Side-wall venting for homes without a chimney or limited make-up air.",
+      description: "Side-wall venting for homes without a chimney or limited make-up air.",
     },
+    
+    
+
     {
-      id: "electric",
-      title: "Electric — 40, 50 & 75 gallons",
-      description:
-        "For homes without gas. We verify breaker/wire size and element rating.",
-    },
-    {
-      id: "condensing",
-      title: "High-Efficiency (Condensing) Gas",
-      description:
-        "Higher UEF and faster recovery where venting allows; proper condensate handling included.",
-    },
-    {
-      id: "form-factor",
-      title: "Short & tall form factors",
-      description:
-        "Low-boy for tight closets; tall for basements. Clearances and code checked on-site.",
-    },
-    {
-      id: "warranty",
-      title: "6/9/12-year Rheem® warranties",
-      description:
-        "Registration handled for you; we review anodes and maintenance to extend life.",
-    },
+  id: "warranty",
+  title: "Rheem® manufacturer warranties (6/9/12-year options)",
+  description:
+    "Coverage provided by Rheem. We assist with registration and coordinate parts directly with Rheem if an issue arises—keeping your downtime minimal.",
+},
+{
+  id: "form-factor",
+  title: "Commercial & point-of-use water heating",
+  description:
+    "From compact under-sink units for offices, salons, and shops to high-capacity commercial and tankless systems for restaurants and multifamily buildings. We size and install solutions for your specific hot-water demand—installed to code with minimal downtime.",
+},
   ],
 } as const;
 
-
+/* ============================================================================
+   WHY RHEEM
+   - Trust signals + code/safety assurance
+   ========================================================================== */
 const whyRheem = {
   padClass: padWhy,
   heading: "Why Rheem® for Water Heaters?",
   subheading:
     "Dependable tanks, nationwide parts, and straightforward warranties. We install the right model for your home and handle registration, permits, and code compliance.",
 
-  // Up to 6 items; choose icons: ShieldCheck | Wrench | Truck | Flame | Gauge | Wifi
   items: [
-    {
-      id: "reliability",
-      icon: "ShieldCheck",
-      title: "Proven reliability & coverage",
-      description:
-        "Choose 6-, 9-, or 12-year tank warranties—registration included.",
-    },
-    {
-      id: "parts",
-      icon: "Truck",
-      title: "Fast local parts access",
-      description:
-        "Common valves, thermostats, and anodes are widely stocked for quicker service.",
-    },
-    {
-      id: "efficiency",
-      icon: "Gauge",
-      title: "Efficient, right-sized options",
-      description:
-        "Standard gas, power-vent, and condensing models with higher UEF and quicker recovery.",
-    },
-    {
-      id: "safe",
-      icon: "Flame",
-      title: "Built-in safety",
-      description:
-        "Flammable vapor resistance, reliable T&P protection, and robust venting that meets local code.",
-    },
-    {
-      id: "support",
-      icon: "Wrench",
-      title: "Serviceable design",
-      description:
-        "Clear documentation and accessible components make installs and future service straightforward.",
-    },
-  ],
+  {
+    id: "reliability",
+    icon: "ShieldCheck",
+    title: "Proven reliability & coverage",
+    description:
+      "Rheem® units are known for dependable performance. Business-ready options include 6-, 9-, and 12-year manufacturer coverage. We help coordinate warranty support and parts if needed.",
+  },
+  {
+    id: "parts",
+    icon: "Truck",
+    title: "Fast local parts access",
+    description:
+      "Common valves, thermostats, and heating elements are stocked locally to minimize downtime and keep your operations running.",
+  },
+  {
+    id: "efficiency",
+    icon: "Gauge",
+    title: "High-efficiency & tankless performance",
+    description:
+      "For higher-demand commercial settings, we install condensing and tankless systems with higher Uniform Energy Factors (UEF) that reduce utility costs and recover hot water faster.",
+  },
+  {
+    id: "support",
+    icon: "Wrench",
+    title: "Serviceable, long-life design",
+    description:
+      "Rheem commercial units are built for easy access and routine maintenance. Our technicians ensure code compliance, proper setup, and quick parts replacement when needed.",
+  },
+  {
+    id: "pointofuse",
+    icon: "Building2",
+    title: "Point-of-use options for business",
+    description:
+      "Compact under-sink and small-capacity heaters provide instant hot water for offices, salons, cafés, and other low-volume needs—perfect where space or usage is limited.",
+  },
+  {
+    id: "custom",
+    icon: "Factory",
+    title: "Custom & commercial solutions",
+    description:
+      "We design and install high-volume systems for restaurants, gyms, and multi-family buildings. From parallel-tank setups to recirculating systems, we’ll tailor hot-water delivery to your business’s exact needs.",
+  },
+]
+,
 
-  // Optional CTAs (toggleable)
+  /* Optional outbound CTAs (kept off by default) */
   ctas: {
-    enabled: false, // turn the whole CTA area on/off
+    enabled: false,
     primary: {
       enabled: true,
       label: "See Rheem Homeowner Resources",
-      href: "https://www.rheem.com/water-heating/", // good informational link
+      href: "https://www.rheem.com/water-heating/",
       size: "lg",
       variant: "outline",
     },
@@ -262,7 +269,10 @@ const whyRheem = {
   },
 } as const;
 
-
+/* ============================================================================
+   PRICING
+   - Clear starter pricing; expectation-setting footnote
+   ========================================================================== */
 const pricing = {
   padClass: padPricing,
   heading: "Transparent Pricing",
@@ -270,7 +280,7 @@ const pricing = {
     "Your final price is confirmed on-site after we review venting, fuel, and code items. No work begins without your approval.",
 
   fuelToggle: {
-    defaultFuel: "gas",       // "gas" | "electric"
+    defaultFuel: "gas",
     labelGas: "Gas",
     labelElectric: "Electric",
   },
@@ -278,21 +288,19 @@ const pricing = {
   plans: [
     {
       id: "40-gal",
-      enabled: true,          // toggle card on/off
+      enabled: true,
       name: "40-Gallon",
       highlighted: false,
       fuelCopy: {
         gas: {
-          price: "Starting at $1,299",
+          price: `Starting at $${SITE.service_prices.water_heater[0].price}`,
           subline: "Standard replacement · atmospheric vent",
-          description:
-            "Sized for many 2–3 person homes. We confirm venting, shutoffs, and code items on-site.",
+          description: "Sized for many 2–3 person homes. We confirm the appropriate venting, shutoffs, and code items on-site.",
         },
         electric: {
-          price: "Starting at $1,199",
+          price: `Starting at $${SITE.service_prices.water_heater[3].price}`,
           subline: "Standard replacement",
-          description:
-            "Ideal where gas isn’t available. We verify breaker/wire size and element rating.",
+          description: "A great choice where gas service isn’t available. Provides reliable hot water for smaller households or light daily use.",
         },
       },
       features: [
@@ -302,13 +310,7 @@ const pricing = {
         "Gas/electric flex & water connections (as needed)",
         "Permit & inspection where required",
       ],
-      cta: {
-        enabled: true,
-        label: "Schedule 40-Gallon",
-        href: "#booking",
-        size: "lg",
-        variant: "default",
-      },
+      cta: { enabled: true, label: "Schedule 40-Gallon", href: "#booking", size: "lg", variant: "default" },
     },
 
     {
@@ -320,14 +322,12 @@ const pricing = {
         gas: {
           price: "Starting at $1,449",
           subline: "Standard replacement · atmospheric vent",
-          description:
-            "Our most common size for families. Ask about power-vent if your home needs side-wall venting.",
+          description: "Our most common size for families. Ask about power-vent if your home needs side-wall venting.",
         },
         electric: {
           price: "Starting at $1,349",
           subline: "Standard replacement",
-          description:
-            "Good for medium households. We’ll recommend high-recovery elements if faster heat-up is needed.",
+          description: "Our most popular size for everyday comfort. A dependable electric option for families who want consistent hot water without surprises.",
         },
       },
       features: [
@@ -337,13 +337,7 @@ const pricing = {
         "Expansion tank/pan if required by code",
         "Permit & inspection where required",
       ],
-      cta: {
-        enabled: true,
-        label: "Schedule 50-Gallon",
-        href: "#booking",
-        size: "lg",
-        variant: "default",
-      },
+      cta: { enabled: true, label: "Schedule 50-Gallon", href: "#booking", size: "lg", variant: "default" },
     },
 
     {
@@ -355,14 +349,7 @@ const pricing = {
         gas: {
           price: "Starting at $1,899",
           subline: "High capacity replacement",
-          description:
-            "For large homes, soaker tubs, or high hot-water demand. We review venting and gas supply on-site.",
-        },
-        electric: {
-          price: "Starting at $1,749",
-          subline: "High capacity replacement",
-          description:
-            "For high-demand electric setups. We check panel capacity and wire sizing.",
+          description: "For large homes, soaker tubs, or high hot-water demand. We review venting and gas supply on-site.",
         },
       },
       features: [
@@ -372,13 +359,7 @@ const pricing = {
         "Code-required updates (quote provided if beyond standard)",
         "Permit & inspection where required",
       ],
-      cta: {
-        enabled: true,
-        label: "Schedule 75-Gallon",
-        href: "#booking",
-        size: "lg",
-        variant: "default",
-      },
+      cta: { enabled: true, label: "Schedule 75-Gallon", href: "#booking", size: "lg", variant: "default" },
     },
   ],
 
@@ -386,7 +367,10 @@ const pricing = {
     "Common exclusions: major re-piping, relocation, venting changes, and code corrections beyond standard replacement. We review these on-site and provide options before any work begins.",
 } as const;
 
-
+/* ============================================================================
+   SCHEDULING
+   - Simple, 6-step flow with trust/clarity at each step
+   ========================================================================== */
 const scheduling = {
   padClass: "pad-md",
   heading: "How Scheduling Works",
@@ -394,16 +378,19 @@ const scheduling = {
     "Book online, get a 1-hour arrival window with live text updates, and approve a written price before any work begins.",
   animation: { enabled: true, once: true, staggerMs: 120 },
   steps: [
-    { id: "book",  icon: "CalendarClock", title: "1) Book online or call", description: "Pick a day and 1-hour arrival window. Instant confirmation—no phone tag." },
-    { id: "text",  icon: "Smartphone",    title: "2) Text updates & ETA",  description: "We text your technician’s name/photo and send an on-the-way message." },
-    { id: "quote", icon: "Wrench",        title: "3) On-site quote",       description: "We check venting, gas/electric, and code items. Approve the price before we start." },
-    { id: "install", icon: "ShieldCheck", title: "4) Install to code",     description: "Rheem® heater installed to code, permits handled where required." },
-    { id: "walk",  icon: "Handshake",     title: "5) Cleanup & walkthrough", description: "Old unit hauled away; we review operation, safety, and warranty." },
-    { id: "follow",icon: "Smile",         title: "6) Follow-up & support",  description: "You’ll get registration and care tips by email. Local support if needed." },
+    { id: "book",   icon: "CalendarClock", title: "1) Book online or call",         description: "Pick a day and 1-hour arrival window. Instant confirmation—no phone tag." },
+    { id: "text",   icon: "Smartphone",    title: "2) Text updates & ETA",          description: "We text your technician’s name/photo and send an on-the-way message." },
+    { id: "quote",  icon: "Wrench",        title: "3) On-site quote",               description: "We check venting, gas/electric, and code items. Approve the price before we start." },
+    { id: "install",icon: "ShieldCheck",   title: "4) Install to code",             description: "Rheem® heater installed to code, permits handled where required." },
+    { id: "walk",   icon: "Handshake",     title: "5) Cleanup & walkthrough",       description: "Old unit hauled away; we review operation, safety, and warranty." },
+    { id: "follow", icon: "Smile",         title: "6) Follow-up & support",         description: "You’ll get registration and care tips by email. Local support if needed." },
   ],
 } as const;
 
-
+/* ============================================================================
+   REPAIR VS REPLACE
+   - Decision help that sets realistic expectations
+   ========================================================================== */
 const repairVsReplace = {
   padClass: "pad-md",
   className: "full-width mx-auto flex justify-center",
@@ -422,16 +409,8 @@ const repairVsReplace = {
       "Rusty or discolored hot water coming from faucets",
       "Upgrading capacity (50–75 gal) or venting for safety/efficiency",
     ],
-    mutedPoints: [
-      "Keep repairing a leaking tank",
-    ],
-    cta: {
-      enabled: true,
-      label: "Schedule Replacement",
-      href: "#booking",
-      size: "lg",
-      variant: "default",
-    },
+    mutedPoints: ["Keep repairing a leaking tank"],
+    cta: { enabled: true, label: "Schedule Replacement", href: "#booking", size: "lg", variant: "default" },
   },
   repair: {
     enabled: true,
@@ -444,21 +423,17 @@ const repairVsReplace = {
       "Warranty is active (we can assist with parts)",
       "Sediment flush restores performance on slow-heating tanks",
     ],
-    mutedPoints: [
-      "Repairing a rusted or leaking tank",
-    ],
-    cta: {
-      enabled: true,
-      label: "Request Repair Visit",
-      href: "#booking",
-      size: "lg",
-      variant: "outline",
-    },
+    mutedPoints: ["Repairing a rusted or leaking tank"],
+    cta: { enabled: true, label: "Request Repair Visit", href: "#booking", size: "lg", variant: "outline" },
   },
   footnote:
     "We confirm your best option on-site after inspecting venting, gas/electric, and local code requirements. No work begins without your approval.",
 } as const;
 
+/* ============================================================================
+   FINAL CTA
+   - Reinforces 1-hour window + upfront price promise
+   ========================================================================== */
 const padFinal: Pad = "pad-md";
 
 const ctaFinal = {
@@ -469,31 +444,21 @@ const ctaFinal = {
   media: {
     src: "/src/assets/images/hero/water-heater-tech.webp",
     alt: "Licensed technician installing a Rheem water heater in a clean utility room",
-    width: 1200,
-    height: 800,
+    width: 1200, height: 800,
     loading: "lazy" as const,
     fetchpriority: "auto" as const,
   },
   ctas: {
     enabled: true,
-    primary: {
-      enabled: true,
-      label: "Schedule Online",
-      href: "#booking",
-      size: "lg",
-      variant: "default",
-    },
-    secondary: {
-      enabled: true,
-      label: "Call Now",
-      href: {telHref},
-      size: "lg",
-      variant: "outline",
-    },
+    primary: { enabled: true, label: "Schedule Online", href: "#booking", size: "lg", variant: "default" },
+    secondary: { enabled: true, label: "Call Now", href: telHref, size: "lg", variant: "outline" },
   },
 } as const;
 
-
+/* ============================================================================
+   FAQS
+   - Simple answers first, with schema toggle enabled
+   ========================================================================== */
 const faqs = {
   padClass: "pad-md",
   badge: "FAQ",
@@ -564,7 +529,13 @@ const faqs = {
     },
   ],
 } as const;
+
+/* ============================================================================
+   PAGE META (passed into <Main />)
+   - Title + description tuned for local SEO (“Chicagoland southern suburbs”)
+   ========================================================================== */
 ---
+
 <Main
   content={{
     title: "Water Heater Installation | Chicagoland Plumbing Services",
